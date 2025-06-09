@@ -1,0 +1,29 @@
+class Node {
+  int data;
+  Node? left;
+  Node? right;
+
+  Node(this.data, {this.left, this.right});
+}
+
+int calculateDepth(Node? node) {
+  //base case: jika node adalah null, kedalamannya adalah 0.
+  if (node == null) {
+    return 0;
+  }
+  
+  int leftDepth = calculateDepth(node.left); //kiri
+  int rightDepth = calculateDepth(node.right); //kanan
+  return(leftDepth > rightDepth ? leftDepth : rightDepth) + 1;
+}
+
+void main() {
+  Node node40 = Node(40); //membangun binary tree node 40 (child of 30)
+  Node node20 = Node(20);
+  Node node30 = Node(30, right: node40);
+  Node root = Node(10, left: node20, right: node30);
+
+  //menghitung kedalaman binary tree
+  int depth = calculateDepth(root);
+  print("Kedalaman Binary Tree: $depth");
+}
