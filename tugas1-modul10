@@ -1,0 +1,96 @@
+// Pastikan baris import ini ada di paling atas file Anda
+import 'dart:io';
+
+// 1. Definisi kelas Node
+class Node {
+  int value;
+  Node? left;
+  Node? right;
+
+  Node(this.value, {this.left, this.right});
+
+  @override
+  String toString() {
+    return 'Node{value: $value}';
+  }
+}
+
+// 2. Definisi kelas BinarySearchTree (lengkap)
+class BinarySearchTree {
+  Node? root;
+
+  BinarySearchTree();
+
+  // Method untuk menyisipkan nilai ke dalam BST
+  void insert(int value) {
+    root = _insertRecursive(root, value);
+  }
+
+  Node _insertRecursive(Node? node, int value) {
+    if (node == null) {
+      return Node(value);
+    }
+
+    if (value < node.value) {
+      node.left = _insertRecursive(node.left, value);
+    } else if (value > node.value) {
+      node.right = _insertRecursive(node.right, value);
+    }
+    return node;
+  }
+
+  /// Mengembalikan nilai terkecil dari Binary Search Tree.
+  /// Jika pohon kosong, mengembalikan null.
+  int? first() {
+    if (root == null) {
+      return null;
+    }
+
+    Node? current = root;
+    while (current!.left != null) {
+      current = current.left;
+    }
+    return current.value;
+  }
+
+  // Opsional: Method untuk mendapatkan nilai terbesar
+  int? last() {
+    if (root == null) {
+      return null;
+    }
+    Node? current = root;
+    while (current!.right != null) {
+      current = current.right;
+    }
+    return current.value;
+  }
+
+  // Opsional: Traversal Inorder untuk menampilkan isi BST terurut
+  void inorderTraversal(Node? node) {
+    if (node == null) return;
+    inorderTraversal(node.left);
+    stdout.write('${node.value} ');
+    inorderTraversal(node.right);
+  }
+}
+
+// 3. Fungsi main sebagai titik masuk program
+void main() {
+  BinarySearchTree bst = BinarySearchTree();
+
+  // Contoh penggunaan
+  bst.insert(50);
+  bst.insert(30);
+  bst.insert(70);
+  bst.insert(20);
+  bst.insert(40);
+  bst.insert(60);
+  bst.insert(80);
+
+  print('Nilai terkecil: ${bst.first()}'); // Seharusnya 20
+  print('Nilai terbesar: ${bst.last()}');   // Seharusnya 80
+
+  print('Inorder traversal:');
+  bst.inorderTraversal(bst.root); // Seharusnya 20 30 40 50 60 70 80
+  print(''); // Untuk baris baru
+}
